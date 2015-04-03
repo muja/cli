@@ -14,6 +14,7 @@ import (
 // App is the main structure of a cli application. It is recomended that
 // and app be created with the cli.NewApp() function
 type App struct {
+	Executable string
 	// The name of the program. Defaults to os.Args[0]
 	Name string
 	// Description of the program.
@@ -67,7 +68,6 @@ func compileTime() time.Time {
 // Creates a new cli Application with some reasonable defaults for Name, Usage, Version and Action.
 func NewApp() *App {
 	return &App{
-		Name:         os.Args[0],
 		Usage:        "A new cli application",
 		Version:      "0.0.0",
 		BashComplete: DefaultAppComplete,
@@ -81,6 +81,12 @@ func NewApp() *App {
 func (a *App) Run(arguments []string) (err error) {
 	if a.Author != "" || a.Email != "" {
 		a.Authors = append(a.Authors, Author{Name: a.Author, Email: a.Email})
+	}
+	if a.Executable == "" {
+		a.Executable = arguments[0]
+	}
+	if a.Name == "" {
+		a.Name = arguments[0]
 	}
 
 	if HelpPrinter == nil {
