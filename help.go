@@ -13,10 +13,10 @@ USAGE:
 
 VERSION:
    {{.Version}}
-
-AUTHOR(S): 
+   {{if .Authors}}
+AUTHOR{{ if eq (len .Authors) 1 }}: {{else}}S:{{end}}
    {{range .Authors}}{{ . }}
-   {{end}}
+   {{end}}{{end}}
 COMMANDS:
    {{range .Commands}}{{join .Names ", "}}{{ "\t" }}{{.Usage}}
    {{end}}{{if .Flags}}
